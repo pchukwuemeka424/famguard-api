@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const { query } = require('../db');
-const { USERS_TABLE } = require('../config');
+require('dotenv').config();
+
+const USERS_TABLE = process.env.USERS_TABLE || 'users';
 
 // GET database check page
 router.get('/', async (req, res) => {
@@ -22,33 +24,44 @@ router.get('/', async (req, res) => {
         for (const table of tables) {
             const tableName = table.table_name;
             
-            // Get row count
-            const countResult = await query(`SELECT COUNT(*) as count FROM "${tableName}"`);
-            const count = parseInt(countResult.rows[0].count);
-            
-            // Get columns
-            const columnsResult = await query(`
-                SELECT 
-                    column_name,
-                    data_type,
-                    character_maximum_length,
-                    is_nullable,
-                    column_default
-                FROM information_schema.columns
-                WHERE table_schema = 'public' 
-                AND table_name = $1
-                ORDER BY ordinal_position
-            `, [tableName]);
-            
-            // Get sample data
-            const sampleResult = await query(`SELECT * FROM "${tableName}" LIMIT 5`);
-            
-            tableDetails.push({
-                name: tableName,
-                count,
-                columns: columnsResult.rows,
-                sample: sampleResult.rows
-            });
+            try {
+                // Get row count
+                const countResult = await query(`SELECT COUNT(*) as count FROM "${tableName}"`);
+                const count = parseInt(countResult.rows[0]?.count || 0);
+                
+                // Get columns
+                const columnsResult = await query(`
+                    SELECT 
+                        column_name,
+                        data_type,
+                        character_maximum_length,
+                        is_nullable,
+                        column_default
+                    FROM information_schema.columns
+                    WHERE table_schema = 'public' 
+                    AND table_name = $1
+                    ORDER BY ordinal_position
+                `, [tableName]);
+                
+                // Get sample data
+                const sampleResult = await query(`SELECT * FROM "${tableName}" LIMIT 5`);
+                
+                tableDetails.push({
+                    name: tableName,
+                    count,
+                    columns: columnsResult.rows || [],
+                    sample: sampleResult.rows || []
+                });
+            } catch (tableErr) {
+                console.error(`Error getting details for table ${tableName}:`, tableErr.message);
+                tableDetails.push({
+                    name: tableName,
+                    count: 0,
+                    columns: [],
+                    sample: [],
+                    error: tableErr.message
+                });
+            }
         }
         
         // Check compatibility
@@ -75,8 +88,15 @@ router.get('/', async (req, res) => {
             USERS_TABLE
         });
     } catch (err) {
+        console.error('Database check error:', err);
+        
+        let errorMessage = err.message;
+        if (err.message.includes('ENOTFOUND') || err.message.includes('getaddrinfo')) {
+            errorMessage = 'Database connection error. Please check your DATABASE_URL and ensure you are using the connection pooler format (port 6543).';
+        }
+        
         res.render('check_database', {
-            error: err.message,
+            error: errorMessage,
             tables: [],
             usersTableExists: false,
             emailColumnExists: false,
@@ -86,4 +106,3 @@ router.get('/', async (req, res) => {
 });
 
 module.exports = router;
-

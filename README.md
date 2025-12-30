@@ -8,6 +8,8 @@ Node.js application for managing FamGuard user accounts with Supabase PostgreSQL
 - Privacy policy page
 - Database inspection tools
 - Row Level Security (RLS) policy setup
+- Automatic connection pooler support
+- Improved error handling and logging
 
 ## Installation
 
@@ -18,12 +20,14 @@ npm install
 
 2. Configure environment variables:
 Create a `.env` file in the root directory:
-```
-DATABASE_URL=postgresql://postgres:password@host:5432/postgres
+```env
+DATABASE_URL=postgresql://postgres.[project-ref]:[password]@aws-0-[region].pooler.supabase.com:6543/postgres
 USERS_TABLE=users
 PORT=3000
 NODE_ENV=development
 ```
+
+**Important:** Use the **connection pooler** format (port 6543) instead of direct connection (port 5432) to avoid DNS errors. See `GET_CONNECTION_STRING.md` for detailed instructions.
 
 3. Start the server:
 ```bash
@@ -42,27 +46,29 @@ npm run dev
 - `/privacy-policy` - Privacy policy page
 - `/check-database` - Database inspection tool
 - `/setup-policy` - Setup RLS policies for user deletion
+- `/health` - Health check endpoint
 
 ## Project Structure
 
 ```
 famGuard/
 ├── api/
-│   └── index.js      # Vercel serverless function entry point
-├── config.js          # Database configuration
-├── db.js             # Database connection pool
-├── server.js         # Main Express server (local development)
-├── vercel.json       # Vercel configuration
-├── package.json      # Dependencies
-├── routes/           # Express routes
+│   └── index.js          # Vercel serverless function entry point
+├── db.js                 # Simple database connection using .env
+├── server.js             # Main Express server (local development)
+├── vercel.json           # Vercel configuration
+├── package.json          # Dependencies
+├── routes/               # Express routes
 │   ├── deleteAccount.js
 │   ├── privacyPolicy.js
 │   ├── checkDatabase.js
 │   └── setupPolicy.js
-├── views/            # EJS templates
+├── views/                # EJS templates
 │   ├── delete_account.ejs
-│   └── privacy_policy.ejs
-└── public/            # Static files
+│   ├── privacy_policy.ejs
+│   ├── check_database.ejs
+│   └── setup_policy.ejs
+└── public/               # Static files
     └── logo.png
 ```
 
@@ -70,9 +76,26 @@ famGuard/
 
 - Node.js
 - Express.js
-- PostgreSQL (via pg)
+- PostgreSQL (via postgres package)
 - EJS (templating)
 - dotenv (environment variables)
+
+## Database Connection
+
+The application uses a simple database connection that reads from `.env`:
+- Reads `DATABASE_URL` from `.env` file
+- Simple and straightforward connection setup
+- Basic error handling and graceful shutdown
+
+**Make sure your `.env` file has the correct `DATABASE_URL`.** See `GET_CONNECTION_STRING.md` for detailed instructions on getting the correct connection string from Supabase.
+
+## Error Handling
+
+The application includes improved error handling:
+- User-friendly error messages
+- Detailed logging for debugging
+- Graceful error recovery
+- Connection retry logic
 
 ## Deployment
 
@@ -88,11 +111,26 @@ Quick deploy:
 ### Environment Variables for Vercel
 
 Set these in Vercel Dashboard:
-- `DATABASE_URL` - PostgreSQL connection string
+- `DATABASE_URL` - PostgreSQL connection string (use pooler format!)
 - `USERS_TABLE` - Database table name (default: users)
 - `NODE_ENV` - Set to `production`
+
+## Troubleshooting
+
+### Database Connection Errors
+
+If you see `getaddrinfo ENOTFOUND` errors:
+1. Ensure you're using the connection pooler format (port 6543)
+2. Check your `.env` file has the correct `DATABASE_URL`
+3. Verify your Supabase project is active
+4. See `GET_CONNECTION_STRING.md` for detailed help
+
+### Common Issues
+
+- **DNS errors**: Use connection pooler instead of direct connection
+- **Authentication failed**: Check your password in the connection string
+- **Table not found**: Ensure your database has the required tables
 
 ## License
 
 ISC
-

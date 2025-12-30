@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const { query } = require('../db');
-const { USERS_TABLE } = require('../config');
+require('dotenv').config();
+
+const USERS_TABLE = process.env.USERS_TABLE || 'users';
 
 // GET delete account page
 router.get('/', (req, res) => {
@@ -47,7 +49,15 @@ router.post('/', async (req, res) => {
             }
         } catch (err) {
             console.error('Database error:', err);
-            error = 'Database error: ' + err.message;
+            
+            // Provide user-friendly error messages
+            if (err.message.includes('ENOTFOUND') || err.message.includes('getaddrinfo')) {
+                error = 'Database connection error. Please check the server configuration.';
+            } else if (err.message.includes('relation') && err.message.includes('does not exist')) {
+                error = `Database table '${USERS_TABLE}' does not exist. Please create it first.`;
+            } else {
+                error = 'Database error: ' + err.message;
+            }
         }
     }
     
@@ -59,4 +69,3 @@ router.post('/', async (req, res) => {
 });
 
 module.exports = router;
-
