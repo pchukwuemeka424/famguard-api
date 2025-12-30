@@ -92,27 +92,55 @@ async function query(text, params) {
             throw new Error('Database connection error: Could not resolve database hostname. Please check your DATABASE_URL and ensure you are using the connection pooler format (port 6543).');
         }
         
-        if (error.message.includes('Tenant or user not found') || error.message.includes('password authentication failed')) {
-            const url = new URL(connectionString);
-            const isPooler = url.hostname.includes('pooler');
-            const username = url.username;
-            
-            let errorMsg = 'Database connection error: Authentication failed.\n\n';
-            errorMsg += 'Possible issues:\n';
-            errorMsg += '1. Wrong region in connection string (us-east-1 might not be correct)\n';
-            errorMsg += '2. Username format might be incorrect\n';
-            errorMsg += '3. Connection string might need to be copied directly from Supabase Dashboard\n\n';
-            errorMsg += 'Current connection string format:\n';
-            errorMsg += `- Hostname: ${url.hostname}\n`;
-            errorMsg += `- Username: ${username}\n`;
-            errorMsg += `- Port: ${url.port}\n\n`;
-            errorMsg += 'To fix:\n';
-            errorMsg += '1. Go to Supabase Dashboard > Settings > Database\n';
-            errorMsg += '2. Select "Connection pooling" mode\n';
-            errorMsg += '3. Copy the EXACT connection string (don\'t modify it)\n';
-            errorMsg += '4. Update DATABASE_URL in your .env file or Vercel environment variables';
-            
-            throw new Error(errorMsg);
+        if (error.message.includes('Tenant or user not found') || error.message.includes('password authentication failed') || error.message.includes('Authentication failed')) {
+            try {
+                const url = new URL(connectionString);
+                const isPooler = url.hostname.includes('pooler');
+                const username = url.username;
+                const port = url.port;
+                
+                let errorMsg = 'Database connection error: Authentication failed.\n\n';
+                errorMsg += '🔍 Connection String Analysis:\n';
+                errorMsg += `- Hostname: ${url.hostname}\n`;
+                errorMsg += `- Username: ${username}\n`;
+                errorMsg += `- Port: ${port}\n`;
+                errorMsg += `- Is Pooler: ${isPooler ? 'Yes ✓' : 'No ✗'}\n\n`;
+                
+                // Check for common issues
+                const issues = [];
+                if (!isPooler) {
+                    issues.push('❌ Not using connection pooler (should use port 6543)');
+                }
+                if (port !== '6543' && isPooler) {
+                    issues.push(`❌ Wrong port (should be 6543, got ${port})`);
+                }
+                if (!username.includes('.')) {
+                    issues.push('❌ Username missing project ref (should be postgres.[project-ref])');
+                }
+                if (username === 'postgres') {
+                    issues.push('❌ Username is just "postgres" - needs to be "postgres.[project-ref]"');
+                }
+                
+                if (issues.length > 0) {
+                    errorMsg += '⚠️  Issues Found:\n';
+                    issues.forEach(issue => errorMsg += `${issue}\n`);
+                    errorMsg += '\n';
+                }
+                
+                errorMsg += '✅ How to Fix:\n';
+                errorMsg += '1. Go to Supabase Dashboard > Settings > Database\n';
+                errorMsg += '2. Select "Connection pooling" tab (NOT "Direct connection")\n';
+                errorMsg += '3. Select "Transaction" mode\n';
+                errorMsg += '4. Copy the EXACT connection string (don\'t modify it)\n';
+                errorMsg += '5. For Vercel: Go to Settings > Environment Variables\n';
+                errorMsg += '6. Update DATABASE_URL with the copied string\n';
+                errorMsg += '7. Redeploy your application\n';
+                
+                throw new Error(errorMsg);
+            } catch (urlError) {
+                // If we can't parse the URL, provide generic error
+                throw new Error('Database connection error: Authentication failed. Please verify your DATABASE_URL is correctly set in Vercel environment variables. Get the exact connection string from Supabase Dashboard > Settings > Database > Connection string (Connection pooling mode).');
+            }
         }
         
         throw error;
