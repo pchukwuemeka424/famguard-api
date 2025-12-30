@@ -20,8 +20,8 @@ export default function FixConnectionPage() {
             <li>Click <strong>Settings</strong> (gear icon) in the left sidebar</li>
             <li>Click <strong>Database</strong> in the settings menu</li>
             <li>Scroll down to <strong>Connection string</strong> section</li>
-            <li><strong>IMPORTANT:</strong> Click the <strong>"Connection pooling"</strong> tab (NOT "Direct connection")</li>
-            <li>Select <strong>"Transaction"</strong> mode</li>
+            <li><strong>IMPORTANT:</strong> Click the <strong>&quot;Connection pooling&quot;</strong> tab (NOT &quot;Direct connection&quot;)</li>
+            <li>Select <strong>&quot;Transaction&quot;</strong> mode</li>
             <li><strong>Copy the ENTIRE connection string</strong> - it will look like:
               <pre style={{ background: '#f5f5f5', padding: '12px', borderRadius: '4px', marginTop: '8px' }}>
 {`postgresql://postgres.bbydsaxduuwbnwqmiant:[PASSWORD]@aws-0-[REGION].pooler.supabase.com:6543/postgres`}
@@ -49,7 +49,7 @@ export default function FixConnectionPage() {
           <p>This might be wrong. The connection string from Supabase will have the correct region for your project.</p>
 
           <div className="alert alert-info" style={{ marginTop: '24px' }}>
-            <strong>Note:</strong> The region in the connection string (like <code>us-east-1</code>, <code>eu-west-1</code>, etc.) must match your Supabase project's actual region. Using the wrong region causes "Tenant or user not found" errors.
+            <strong>Note:</strong> The region in the connection string (like <code>us-east-1</code>, <code>eu-west-1</code>, etc.) must match your Supabase project&apos;s actual region. Using the wrong region causes &quot;Tenant or user not found&quot; errors.
           </div>
         </div>
       </div>
