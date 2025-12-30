@@ -3,7 +3,6 @@ export default function PrivacyPolicyPage() {
     <div className="container">
       <div className="card">
         <h1>Privacy Policy</h1>
-        <p style={{ color: '#666', marginBottom: '2rem' }}>Last Updated: January 2025</p>
         
         <div style={{ lineHeight: '1.8' }}>
           <h2>Introduction</h2>
@@ -20,21 +19,8 @@ export default function PrivacyPolicyPage() {
           <p>We collect information that you provide directly to us, including:</p>
           <ul>
             <li><strong>Account Information:</strong> Name, email address, phone number, and password</li>
-            <li><strong>Profile Information:</strong> Profile photo, emergency contacts, and emergency notes</li>
             <li><strong>Location Data:</strong> Real-time and historical location information when you enable location sharing</li>
-            <li><strong>Incident Reports:</strong> Information about safety incidents you report, including location, description, and photos</li>
-            <li><strong>Check-in Data:</strong> Scheduled check-in times and status</li>
-            <li><strong>Connection Information:</strong> Information about your connections with other users</li>
             <li><strong>Settings Preferences:</strong> App settings, notification preferences, and privacy controls</li>
-          </ul>
-
-          <h3>1.2 Automatically Collected Information</h3>
-          <p>We automatically collect certain information when you use our services:</p>
-          <ul>
-            <li><strong>Device Information:</strong> Device type, operating system, unique device identifiers</li>
-            <li><strong>Usage Data:</strong> How you interact with the app, features used, and time spent</li>
-            <li><strong>Location Data:</strong> GPS coordinates, location accuracy, and location update frequency</li>
-            <li><strong>Log Data:</strong> IP address, access times, and error logs</li>
           </ul>
 
           <h2>2. How We Use Your Information</h2>
@@ -44,7 +30,6 @@ export default function PrivacyPolicyPage() {
           <ul>
             <li><strong>Location Sharing:</strong> Share your location with your connected family members and trusted contacts</li>
             <li><strong>Safety Features:</strong> Provide incident alerts, travel advisories, and emergency notifications</li>
-            <li><strong>Check-in System:</strong> Enable scheduled check-ins and missed check-in alerts</li>
             <li><strong>Connection Management:</strong> Facilitate connections between users and manage your safety network</li>
           </ul>
 
@@ -58,7 +43,7 @@ export default function PrivacyPolicyPage() {
 
           <h3>2.3 Communication</h3>
           <ul>
-            <li>Send push notifications about incidents, check-ins, and safety alerts</li>
+            <li>Send push notifications about safety alerts</li>
             <li>Respond to your support requests</li>
             <li>Send important service updates and announcements</li>
           </ul>
@@ -77,16 +62,7 @@ export default function PrivacyPolicyPage() {
             Your location and safety information is shared only with users you have explicitly connected with through the app. You control who can see your information through connection management features.
           </p>
 
-          <h3>3.2 Legal Requirements</h3>
-          <p>We may disclose your information if required by law or in response to:</p>
-          <ul>
-            <li>Court orders or legal processes</li>
-            <li>Government requests</li>
-            <li>Enforcement of our Terms of Service</li>
-            <li>Protection of rights, property, or safety</li>
-          </ul>
-
-          <h3>3.3 We Do Not Sell Your Data</h3>
+          <h3>3.2 We Do Not Sell Your Data</h3>
           <p>We do not sell, rent, or trade your personal information to third parties for marketing purposes.</p>
 
           <h2>4. Data Security</h2>
@@ -129,18 +105,17 @@ export default function PrivacyPolicyPage() {
 
           <h3>5.4 Data Deletion</h3>
           <ul>
-            <li>Delete your account and all associated data through the app settings</li>
-            <li>Request data deletion by contacting us at privacy@famguard.app</li>
+            <li>Delete your account and all associated data by visiting <a href="https://famguard.online/delete-account" target="_blank" rel="noopener noreferrer">our account deletion page</a></li>
+            <li>Request data deletion by contacting us at privacy@famguard.online</li>
             <li>Location data is automatically deleted after a specified retention period</li>
           </ul>
 
           <h3>5.5 Account Deletion</h3>
-          <p>You can delete your account at any time. Upon account deletion:</p>
+          <p>You can delete your account at any time by visiting <a href="https://famguard.online/delete-account" target="_blank" rel="noopener noreferrer">our account deletion page</a>. Upon account deletion:</p>
           <ul>
             <li>Your profile information will be removed</li>
             <li>Your location history will be deleted</li>
             <li>Your connections will be removed</li>
-            <li>Incident reports you created may be anonymized (location and type retained for community safety)</li>
           </ul>
           <p>Account deletion is permanent and cannot be undone.</p>
 
@@ -149,17 +124,11 @@ export default function PrivacyPolicyPage() {
           <ul>
             <li><strong>Active Accounts:</strong> Data is retained while your account is active</li>
             <li><strong>Location History:</strong> Retained for up to 30 days (configurable)</li>
-            <li><strong>Incident Reports:</strong> Retained for the duration specified in the incident (typically 24-72 hours)</li>
             <li><strong>Account Data:</strong> Retained until account deletion</li>
             <li><strong>Legal Requirements:</strong> Some data may be retained longer to comply with legal obligations</li>
           </ul>
 
-          <h2>7. Children&apos;s Privacy</h2>
-          <p>
-            FamGuard is not intended for children under the age of 13. We do not knowingly collect personal information from children under 13. If you believe we have collected information from a child under 13, please contact us immediately, and we will delete that information.
-          </p>
-
-          <h2>8. Changes to This Privacy Policy</h2>
+          <h2>7. Changes to This Privacy Policy</h2>
           <p>We may update this Privacy Policy from time to time. We will notify you of any changes by:</p>
           <ul>
             <li>Posting the new Privacy Policy in the app</li>
@@ -168,18 +137,7 @@ export default function PrivacyPolicyPage() {
           </ul>
           <p>Your continued use of the service after changes become effective constitutes acceptance of the updated Privacy Policy.</p>
 
-          <h2>9. California Privacy Rights</h2>
-          <p>If you are a California resident, you have additional rights under the California Consumer Privacy Act (CCPA):</p>
-          <ul>
-            <li>Right to know what personal information is collected</li>
-            <li>Right to know if personal information is sold or disclosed</li>
-            <li>Right to opt-out of the sale of personal information (we do not sell your data)</li>
-            <li>Right to access your personal information</li>
-            <li>Right to request deletion of your personal information</li>
-            <li>Right to non-discrimination for exercising your privacy rights</li>
-          </ul>
-
-          <h2>10. European Privacy Rights (GDPR)</h2>
+          <h2>8. European Privacy Rights (GDPR)</h2>
           <p>If you are located in the European Economic Area (EEA), you have additional rights under the General Data Protection Regulation (GDPR):</p>
           <ul>
             <li>Right of access to your personal data</li>
@@ -191,22 +149,27 @@ export default function PrivacyPolicyPage() {
             <li>Right to withdraw consent</li>
           </ul>
 
-          <h2>11. Contact Us</h2>
+          <h2>9. Contact Us</h2>
           <p>If you have questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact us:</p>
           <ul>
-            <li><strong>Email:</strong> privacy@famguard.app</li>
-            <li><strong>Support:</strong> support@famguard.app</li>
-            <li><strong>Legal:</strong> legal@famguard.app</li>
+            <li><strong>Website:</strong> <a href="https://acehubtechnologiesltd.co.uk/" target="_blank" rel="noopener noreferrer">acehubtechnologiesltd.co.uk</a></li>
+            <li><strong>Email:</strong> <a href="mailto:info@acehubtechnologiesltd.co.uk">info@acehubtechnologiesltd.co.uk</a></li>
+            <li><strong>Phone:</strong> <a href="tel:+447463057427">+44 7463 057427</a></li>
+            <li><strong>Privacy:</strong> privacy@famguard.online</li>
+            <li><strong>Support:</strong> support@famguard.online</li>
+            <li><strong>Legal:</strong> legal@famguard.online</li>
           </ul>
           <p>
-            <strong>Mailing Address:</strong> AceHub Technologies Ltd (UK) [Your Address] United Kingdom
+            <strong>Company:</strong> AceHub Technologies Ltd<br />
+            <strong>Company Number:</strong> 16475209<br />
+            <strong>Location:</strong> United Kingdom
           </p>
 
-          <h2>12. Data Protection Officer</h2>
+          <h2>10. Data Protection Officer</h2>
           <p>For privacy-related inquiries, you can contact our Data Protection Officer at:</p>
-          <p><strong>Email:</strong> dpo@famguard.app</p>
+          <p><strong>Email:</strong> dpo@famguard.online</p>
 
-          <h2>13. Complaints</h2>
+          <h2>11. Complaints</h2>
           <p>If you believe we have not addressed your privacy concerns, you have the right to file a complaint with your local data protection authority.</p>
 
           <p style={{ marginTop: '2rem', padding: '1rem', background: '#f5f5f5', borderRadius: '4px' }}>
