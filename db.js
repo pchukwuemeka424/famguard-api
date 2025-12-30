@@ -57,7 +57,6 @@ async function query(text, params) {
             const parts = [];
             const values = [];
             let lastIndex = 0;
-            let paramIndex = 0;
             
             // Find all $1, $2, etc. placeholders
             const placeholderRegex = /\$(\d+)/g;
@@ -77,14 +76,39 @@ async function query(text, params) {
                 }
                 
                 lastIndex = match.index + match[0].length;
-                paramIndex++;
             }
             
             // Add remaining text
             parts.push(text.substring(lastIndex));
             
-            // Execute using postgres template literal
-            result = await sql(parts, ...values);
+            // Execute using postgres template literal syntax
+            // The postgres library requires tagged template literals, which can't be created dynamically
+            // We use sql.unsafe() with proper parameter substitution
+            // Build the query string with parameter placeholders replaced safely
+            let queryText = text;
+            // Replace placeholders in reverse order to avoid $10 being replaced before $1
+            for (let i = values.length - 1; i >= 0; i--) {
+                const placeholder = `$${i + 1}`;
+                const value = values[i];
+                // Properly escape and format the value based on type
+                let escapedValue;
+                if (value === null || value === undefined) {
+                    escapedValue = 'NULL';
+                } else if (typeof value === 'string') {
+                    // Escape single quotes by doubling them (PostgreSQL standard)
+                    escapedValue = `'${value.replace(/'/g, "''")}'`;
+                } else if (typeof value === 'number') {
+                    escapedValue = value.toString();
+                } else if (typeof value === 'boolean') {
+                    escapedValue = value ? 'TRUE' : 'FALSE';
+                } else {
+                    // For other types, convert to string and escape
+                    escapedValue = `'${String(value).replace(/'/g, "''")}'`;
+                }
+                // Replace all occurrences of this placeholder
+                queryText = queryText.split(placeholder).join(escapedValue);
+            }
+            result = await sql.unsafe(queryText);
         } else {
             // Direct query without parameters
             result = await sql.unsafe(text);
