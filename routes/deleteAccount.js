@@ -51,8 +51,12 @@ router.post('/', async (req, res) => {
             console.error('Database error:', err);
             
             // Provide user-friendly error messages
-            if (err.message.includes('ENOTFOUND') || err.message.includes('getaddrinfo')) {
-                error = 'Database connection error. Please check the server configuration.';
+            if (err.message.includes('DATABASE_URL is not set') || err.message.includes('not configured')) {
+                error = 'Database connection error: DATABASE_URL is not configured. Please check Vercel environment variables.';
+            } else if (err.message.includes('ENOTFOUND') || err.message.includes('getaddrinfo')) {
+                error = 'Database connection error: Could not connect to database. Please verify DATABASE_URL in Vercel settings.';
+            } else if (err.message.includes('Authentication failed') || err.message.includes('password authentication')) {
+                error = 'Database connection error: Authentication failed. Please check your DATABASE_URL credentials in Vercel settings.';
             } else if (err.message.includes('relation') && err.message.includes('does not exist')) {
                 error = `Database table '${USERS_TABLE}' does not exist. Please create it first.`;
             } else {
