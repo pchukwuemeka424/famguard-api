@@ -27,7 +27,7 @@ function getDatabaseConfig() {
             username = username.split('.')[0]; // Extract 'postgres' part
         }
         
-        return {
+        const config = {
             host: url.hostname,
             port: parseInt(url.port) || 5432,
             database: url.pathname.slice(1) || 'postgres', // Remove leading '/'
@@ -38,6 +38,16 @@ function getDatabaseConfig() {
                 rejectUnauthorized: false
             }
         };
+        
+        console.log('Database connection config:', {
+            host: config.host,
+            port: config.port,
+            database: config.database,
+            user: config.user,
+            ssl: 'enabled'
+        });
+        
+        return config;
     } catch (error) {
         console.error('Error parsing DATABASE_URL:', error.message);
         throw new Error('Invalid DATABASE_URL format');
