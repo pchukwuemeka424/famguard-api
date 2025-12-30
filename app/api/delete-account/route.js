@@ -4,6 +4,14 @@ import { NextResponse } from 'next/server'
 const USERS_TABLE = process.env.USERS_TABLE || 'users'
 
 export async function POST(request) {
+  // Validate environment variables at runtime
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY) {
+    return NextResponse.json(
+      { error: 'Missing Supabase environment variables. Please set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY in Vercel project settings.' },
+      { status: 500 }
+    )
+  }
+
   try {
     const { email } = await request.json()
 
