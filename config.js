@@ -8,7 +8,14 @@ require('dotenv').config();
 
 // Parse database URL into connection parameters
 function getDatabaseConfig() {
-    const databaseUrl = process.env.DATABASE_URL || 'postgresql://postgres:eYHNPishBvzReZ6P@db.bbydsaxduuwbnwqmiant.supabase.co:5432/postgres';
+    // Read from .env file (loaded via dotenv.config() above)
+    const databaseUrl = process.env.DATABASE_URL;
+    
+    if (!databaseUrl) {
+        throw new Error('DATABASE_URL is not set in environment variables. Please check your .env file.');
+    }
+    
+    console.log('Using DATABASE_URL from .env file');
     
     try {
         const url = new URL(databaseUrl);
