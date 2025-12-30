@@ -2,6 +2,8 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
+import Link from 'next/link'
 
 export default function DeleteAccountPage() {
   const [email, setEmail] = useState('')
@@ -54,36 +56,63 @@ export default function DeleteAccountPage() {
   }
 
   return (
-    <div className="container">
-      <div className="card">
-        <h1>Delete Account</h1>
-        <p>Enter your email address to delete your account.</p>
+    <div className="delete-account-container">
+      <div className="delete-account-card">
+        <div className="delete-account-header">
+          <Image
+            src="/logo.png"
+            alt="FamGuard Logo"
+            width={80}
+            height={80}
+            priority
+            style={{ objectFit: 'contain' }}
+          />
+          <h1 className="delete-account-title">FamGuard</h1>
+          <h2 className="delete-account-subtitle">Delete Account</h2>
+        </div>
 
-        {error && (
-          <div className="alert alert-error">{error}</div>
-        )}
+        <div className="delete-account-content">
+          <p className="delete-account-description">
+            Enter your email address to permanently delete your account. 
+            This action cannot be undone.
+          </p>
 
-        {success && (
-          <div className="alert alert-success">{success}</div>
-        )}
+          {error && (
+            <div className="alert alert-error">{error}</div>
+          )}
 
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="email">Email Address</label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="your@email.com"
-              required
-            />
-          </div>
+          {success && (
+            <div className="alert alert-success">{success}</div>
+          )}
 
-          <button type="submit" className="btn btn-danger" disabled={loading}>
-            {loading ? 'Deleting...' : 'Delete Account'}
-          </button>
-        </form>
+          <form onSubmit={handleSubmit} className="delete-account-form">
+            <div className="form-group">
+              <label htmlFor="email">Email Address</label>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="your@email.com"
+                required
+                className="delete-account-input"
+              />
+            </div>
+
+            <div className="delete-account-actions">
+              <button 
+                type="submit" 
+                className="btn btn-danger delete-account-btn" 
+                disabled={loading}
+              >
+                {loading ? 'Deleting...' : 'Delete Account'}
+              </button>
+              <Link href="/" className="btn btn-secondary">
+                Cancel
+              </Link>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   )
