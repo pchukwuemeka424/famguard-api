@@ -85,7 +85,20 @@ async function getDatabaseInfo() {
 }
 
 export default async function CheckDatabasePage() {
-  const data = await getDatabaseInfo()
-
-  return <DatabaseCheckClient {...data} />
+  try {
+    const data = await getDatabaseInfo()
+    return <DatabaseCheckClient {...data} />
+  } catch (error) {
+    console.error('Page error:', error)
+    return (
+      <div className="container">
+        <div className="card">
+          <h1>Error</h1>
+          <div className="alert alert-error">
+            <p>An error occurred while loading this page: {error.message || 'Unknown error'}</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
 }

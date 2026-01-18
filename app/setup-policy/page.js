@@ -55,7 +55,20 @@ async function getSetupPolicyData() {
 }
 
 export default async function SetupPolicyPage() {
-  const data = await getSetupPolicyData()
-
-  return <SetupPolicyClient {...data} />
+  try {
+    const data = await getSetupPolicyData()
+    return <SetupPolicyClient {...data} />
+  } catch (error) {
+    console.error('Page error:', error)
+    return (
+      <div className="container">
+        <div className="card">
+          <h1>Error</h1>
+          <div className="alert alert-error">
+            <p>An error occurred while loading this page: {error.message || 'Unknown error'}</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
 }
