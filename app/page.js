@@ -3,6 +3,16 @@ import Navigation from './components/Navigation'
 import './globals.css'
 import './landing.css'
 
+export const metadata = {
+  title: 'Home',
+  description: 'FamGuard is a simple family safety app designed to help loved ones stay connected and protected. Download now for iOS and Android.',
+  openGraph: {
+    title: 'FamGuard - Family Safety App',
+    description: 'Stay connected and protected with FamGuard. Share live location, send check-ins, and alert family members during emergencies.',
+    images: ['/img.png'],
+  },
+}
+
 export default function Home() {
   return (
     <div className="landing-container">

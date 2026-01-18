@@ -3,6 +3,15 @@ import Navigation from '../components/Navigation'
 import '../globals.css'
 import '../landing.css'
 
+export const metadata = {
+  title: 'About',
+  description: 'Learn about FamGuard and our mission to help families stay safe and connected. Discover our key features and the team behind Acehub Technologies Ltd.',
+  openGraph: {
+    title: 'About FamGuard - Family Safety App',
+    description: 'Learn about FamGuard and our mission to help families stay safe and connected.',
+  },
+}
+
 export default function About() {
   return (
     <div className="landing-container">

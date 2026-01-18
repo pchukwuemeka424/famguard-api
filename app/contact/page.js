@@ -3,6 +3,15 @@ import Navigation from '../components/Navigation'
 import '../globals.css'
 import '../landing.css'
 
+export const metadata = {
+  title: 'Contact Us',
+  description: 'Get in touch with FamGuard support. Contact Acehub Technologies Ltd for questions, feedback, or technical support. Email, phone, and address information.',
+  openGraph: {
+    title: 'Contact FamGuard - Get Support',
+    description: 'Contact FamGuard support team for questions, feedback, or technical assistance.',
+  },
+}
+
 export default function Contact() {
   return (
     <div className="landing-container">

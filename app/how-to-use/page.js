@@ -3,6 +3,15 @@ import Navigation from '../components/Navigation'
 import '../globals.css'
 import '../landing.css'
 
+export const metadata = {
+  title: 'How to Use',
+  description: 'Learn how to use FamGuard - get started with location sharing, check-ins, and emergency alerts. Step-by-step guide for family safety app.',
+  openGraph: {
+    title: 'How to Use FamGuard - Step-by-Step Guide',
+    description: 'Learn how to use FamGuard for location sharing, check-ins, and emergency alerts.',
+  },
+}
+
 export default function HowToUse() {
   return (
     <div className="landing-container">
